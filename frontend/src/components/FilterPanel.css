@@ -1,0 +1,187 @@
+.filter-panel {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-start;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  padding: 24px;
+  border-radius: 16px;
+  border: 1px solid var(--border-color);
+  box-shadow: var(--shadow-md);
+  animation: fadeIn 0.5s ease-out;
+}
+
+.filter-dropdown-wrapper {
+  position: relative;
+  min-width: 180px;
+}
+
+.filter-dropdown-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 12px 16px;
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  min-width: 180px;
+}
+
+.filter-dropdown-header:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-label {
+  font-size: 10px;
+  font-weight: 700;
+  color: var(--text-secondary);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  margin-bottom: 4px;
+}
+
+.filter-selected-text {
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 600;
+}
+
+.dropdown-chevron {
+  font-size: 10px;
+  color: var(--text-light);
+  transition: transform 0.3s ease;
+  margin-left: 12px;
+  flex-shrink: 0;
+}
+
+.dropdown-chevron.open {
+  transform: rotate(180deg);
+  color: var(--primary-color);
+}
+
+.filter-dropdown-menu {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  right: 0;
+  background: white;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  box-shadow: var(--shadow-lg);
+  z-index: 1000;
+  max-height: 280px;
+  overflow-y: auto;
+  min-width: 100%;
+  animation: fadeIn 0.2s ease-out;
+}
+
+.filter-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  font-size: 13px;
+  color: var(--text-primary);
+  font-weight: 500;
+}
+
+.filter-dropdown-item:hover {
+  background: linear-gradient(90deg, rgba(74, 144, 226, 0.08) 0%, rgba(124, 58, 237, 0.05) 100%);
+}
+
+.filter-dropdown-item.selected {
+  background: linear-gradient(90deg, rgba(74, 144, 226, 0.15) 0%, rgba(124, 58, 237, 0.1) 100%);
+  color: var(--primary-color);
+  font-weight: 600;
+}
+
+.filter-dropdown-item .checkbox {
+  width: 18px;
+  height: 18px;
+  border: 2px solid var(--border-color);
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 12px;
+  color: white;
+  flex-shrink: 0;
+  transition: all 0.2s ease;
+  background: white;
+}
+
+.filter-dropdown-item.selected .checkbox {
+  background: linear-gradient(135deg, #4a90e2 0%, #7c3aed 100%);
+  border-color: var(--primary-color);
+  color: white;
+  box-shadow: 0 2px 8px rgba(74, 144, 226, 0.3);
+}
+
+.age-range-inputs,
+.date-range-inputs {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 12px;
+  padding: 0 16px;
+}
+
+.age-input,
+.date-input {
+  padding: 12px 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 10px;
+  font-size: 13px;
+  width: 120px;
+  background: white;
+  transition: all 0.3s ease;
+  box-shadow: var(--shadow-sm);
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.age-input:hover,
+.date-input:hover {
+  border-color: var(--primary-color);
+  box-shadow: 0 4px 12px rgba(74, 144, 226, 0.1);
+}
+
+.age-input:focus,
+.date-input:focus {
+  outline: none;
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(74, 144, 226, 0.1);
+}
+
+.age-range-inputs span,
+.date-range-inputs span {
+  font-size: 12px;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+/* Scrollbar styling for dropdown menu */
+.filter-dropdown-menu::-webkit-scrollbar {
+  width: 6px;
+}
+
+.filter-dropdown-menu::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.filter-dropdown-menu::-webkit-scrollbar-thumb {
+  background: linear-gradient(135deg, #4a90e2 0%, #7c3aed 100%);
+  border-radius: 3px;
+}
+
+.filter-dropdown-menu::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(135deg, #357abd 0%, #6d28d9 100%);
+}
