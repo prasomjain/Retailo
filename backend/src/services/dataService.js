@@ -1,20 +1,6 @@
-const fs = require('fs');
-const path = require('path');
-const csv = require('csv-parser');
+const db = require('./database');
 const SalesModel = require('../models/Sales');
 
-const csvPath = path.join(__dirname, '../../../truestate_assignment_dataset.csv');
-
-// Verify CSV file exists
-if (!fs.existsSync(csvPath)) {
-  console.error(`CSV file not found at: ${csvPath}`);
-  console.error(`Current working directory: ${process.cwd()}`);
-  console.error(`__dirname: ${__dirname}`);
-} else {
-  console.log(`CSV file found at: ${csvPath}`);
-}
-
-// Cache for filter options (small data)
 let filterOptionsCache = null;
 let filterOptionsLoaded = false;
 
@@ -65,7 +51,7 @@ const matchesFilters = (item, filters) => {
   // Tags filter
   if (filters.tags && filters.tags.length > 0) {
     const itemTags = (item['Tags'] || '').split(',').map(t => t.trim().toLowerCase());
-    const hasMatchingTag = filters.tags.some(tag => 
+    const hasMatchingTag = filters.tags.some(tag =>
       itemTags.includes(tag.toLowerCase())
     );
     if (!hasMatchingTag) {
@@ -116,11 +102,11 @@ const streamAndProcessData = (searchTerm, filters, sortBy, sortOrder, page, page
     // For sorting, we need to collect all matching items first
     // For pagination without sorting, we can stream directly
     const needsSorting = sortBy && sortBy !== 'none';
-    
+
     if (needsSorting) {
       // Collect all matching items for sorting
       const allMatches = [];
-      
+
       fs.createReadStream(csvPath)
         .pipe(csv())
         .on('data', (item) => {
@@ -177,7 +163,7 @@ const streamAndProcessData = (searchTerm, filters, sortBy, sortOrder, page, page
           // Apply pagination and transform for display
           const startIndex = (page - 1) * pageSize;
           const endIndex = startIndex + pageSize;
-          const paginated = allMatches.slice(startIndex, endIndex).map(item => 
+          const paginated = allMatches.slice(startIndex, endIndex).map(item =>
             SalesModel.transformForDisplay(item)
           );
 
@@ -285,13 +271,13 @@ const getFilterOptions = () => {
     const categories = new Set();
     const paymentMethods = new Set();
     const allTags = new Set();
-    
+
     // Track only min/max values instead of storing all values
     let minAge = Infinity;
     let maxAge = 0;
     let minDate = null;
     let maxDate = null;
-    
+
     let rowCount = 0;
 
     const stream = fs.createReadStream(csvPath)
@@ -307,17 +293,17 @@ const getFilterOptions = () => {
           if (item['Gender']) genders.add(item['Gender']);
           if (item['Product Category']) categories.add(item['Product Category']);
           if (item['Payment Method']) paymentMethods.add(item['Payment Method']);
-          
+
           const tags = (item['Tags'] || '').split(',').map(t => t.trim()).filter(Boolean);
           tags.forEach(tag => allTags.add(tag));
-          
+
           // Track min/max age without storing all values
           const age = Number.parseInt(item['Age']) || 0;
           if (age > 0) {
             if (age < minAge) minAge = age;
             if (age > maxAge) maxAge = age;
           }
-          
+
           // Track min/max date without storing all values
           if (item['Date']) {
             const dateStr = item['Date'];
@@ -336,13 +322,13 @@ const getFilterOptions = () => {
             categories: [...categories].sort(),
             tags: [...allTags].sort(),
             paymentMethods: [...paymentMethods].sort(),
-            ageRange: { 
-              min: minAge !== Infinity ? minAge : 0, 
-              max: maxAge > 0 ? maxAge : 100 
+            ageRange: {
+              min: minAge !== Infinity ? minAge : 0,
+              max: maxAge > 0 ? maxAge : 100
             },
-            dateRange: { 
-              min: minDate || '', 
-              max: maxDate || '' 
+            dateRange: {
+              min: minDate || '',
+              max: maxDate || ''
             }
           };
           filterOptionsLoaded = true;
