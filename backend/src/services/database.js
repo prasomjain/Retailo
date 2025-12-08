@@ -3,8 +3,11 @@ const path = require('path');
 const fs = require('fs');
 const csv = require('csv-parser');
 
-const dbPath = path.resolve(__dirname, '../../sales.db');
-const csvPath = path.resolve(__dirname, '../../../truestate_assignment_dataset.csv');
+const dbPath = path.resolve(__dirname, '../sales.db');
+const csvPath = path.resolve(__dirname, '../../truestate_assignment_dataset.csv');
+
+console.log('Database Path:', dbPath); // Debug log
+console.log('CSV Path:', csvPath);     // Debug log
 
 // Create/Open Database
 const db = new sqlite3.Database(dbPath, (err) => {
